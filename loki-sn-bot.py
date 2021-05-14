@@ -371,7 +371,7 @@ def main():
 
     print("Bot started")
 
-    pending = asyncio.Task.all_tasks()
+    pending = asyncio.all_tasks(asyncio.get_event_loop())
     asyncio.get_event_loop().run_until_complete(asyncio.gather(*pending))
 
     print("Bot ended")

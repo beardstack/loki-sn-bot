@@ -566,7 +566,7 @@ class DiscordNetwork(Network):
         asyncio.ensure_future(self.bot.logout())
 
     async def message_user(self, userid, message):
-        user = self.bot.get_user(userid)
+        user = await self.bot.fetch_user(userid)
         if user:
             await user.send(message)
         return True
