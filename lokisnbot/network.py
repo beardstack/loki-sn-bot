@@ -313,9 +313,12 @@ class NetworkContext(metaclass=ABCMeta):
             reply_text += 'Last uptime proof: ' + sn.format_proof_age() + '\n'
 
             ver, verstr = sn.version(), sn.version_str()
-            reply_text += 'Service node version: ' + (self.b(verstr) if verstr else 'unknown')
+            reply_text += 'Versions (oxend/lokinet/storage): ' + (self.b(verstr) if verstr else 'unknown')
             if lokisnbot.config.WARN_VERSION_MSG and lokisnbot.config.WARN_VERSION_LESS_THAN and ver and ver < lokisnbot.config.WARN_VERSION_LESS_THAN:
                 reply_text += ' ' + lokisnbot.config.WARN_VERSION_MSG
+            lokinet_ver, ss_ver = sn.state('lokinet_version'), sn.state('storage_server_version')
+            reply_text += '/{}'.format(self.b('.'.join(str(x) for x in lokinet_ver)) if lokinet_ver else 'unknown')
+            reply_text += '/{}'.format(self.b('.'.join(str(x) for x in ss_ver)) if ss_ver else 'unknown')
             reply_text += '\n'
 
             expiry_block = sn.expiry_block()
