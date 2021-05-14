@@ -92,6 +92,10 @@ class ServiceNode:
         """Returns true if this SN is fully staked and active"""
         return self.active() and self._state['total_contributed'] >= self._state['staking_requirement']
 
+    def solo(self):
+        """Returns true if this is a solo node"""
+        return self._state['total_contributed'] >= self._state['staking_requirement'] and len(self._state['contributors']) == 1
+
 
     def active_on_network(self):
         """Returns true if this SN is currently active (i.e. staked and (if daemon is v4+) not decommissioned)"""
@@ -210,7 +214,7 @@ class ServiceNode:
         return int(time.time() - lup)
 
 
-    def format_proof_age(self):
+    def format_proof_age(self, extra_short=False):
         ago = self.proof_age()
         if ago is None:
             return '_No proof received_'
@@ -218,10 +222,16 @@ class ServiceNode:
         minutes = (ago // 60) % 60
         hours = (ago // 3600)
         return ('_No proof received_' if ago is None else
-                (   '{}h{:02d}m{:02d}s'.format(hours, minutes, seconds) if hours else
-                    '{}m{:02d}s'.format(minutes, seconds) if minutes else
-                    '{}s'.format(seconds)
-                    ) + ' ago' + (' ⚠' if ago >= PROOF_AGE_WARNING else '')
+                (
+                    (   '{}h{:02d}m'.format(hours, minutes) if hours else
+                        '{}m'.format(minutes) if minutes else
+                        '{}s'.format(seconds)
+                    ) if extra_short else (
+                        '{}h{:02d}m{:02d}s'.format(hours, minutes, seconds) if hours else
+                        '{}m{:02d}s'.format(minutes, seconds) if minutes else
+                        '{}s'.format(seconds)
+                    )
+                ) + ' ago' + (' ⚠' if ago >= PROOF_AGE_WARNING else '')
                 )
 
 
