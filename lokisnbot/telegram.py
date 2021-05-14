@@ -281,7 +281,7 @@ class TelegramContext(NetworkContext):
                 else:
                     msg += '; block _{}_ (_{}_)'.format(sn.expiry_block(), friendly_time(sn.expires_in()))
                 if not sn.solo():
-                    msg += '; _{:.2g}%_ fee'.format(sn.operator_fee() * 100)
+                    msg += '; _{:.3g}%_ fee'.format(sn.operator_fee() * 100)
 
                 msg += '; ' + sn.format_proof_age(extra_short=True)
                 msg += '\n'
