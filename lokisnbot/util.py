@@ -32,4 +32,4 @@ def escape_markdown(text):
 
 
 def explorer(testnet=False):
-    return (lokisnbot.config.TESTNET_EXPLORER or 'lokitestnet.com') if testnet else (lokisnbot.config.EXPLORER or 'lokiblocks.com')
+    return (lokisnbot.config.TESTNET_EXPLORER or 'testnet.oxen.observer') if testnet else (lokisnbot.config.EXPLORER or 'oxen.observer')

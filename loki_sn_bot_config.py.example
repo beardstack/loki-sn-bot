@@ -57,9 +57,9 @@ TESTNET_FAUCET_WAIT_USER = 60*60
 TESTNET_FAUCET_WAIT_GLOBAL = 60
 
 # domain name of the block explorer
-EXPLORER = 'lokiblocks.com'
+EXPLORER = 'oxen.observer'
 # domain name of the testnet block explorer
-TESTNET_EXPLORER = 'lokitestnet.com'
+TESTNET_EXPLORER = 'testnet.oxen.observer'
 
 # Thresholds, in hours, at which to notify about an impending expiry.  These must be in increasing
 # order.

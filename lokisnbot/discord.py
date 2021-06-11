@@ -585,7 +585,7 @@ class DiscordNetwork(Network):
         return True
 
     def sn_update_extra(self, sn):
-        return { 'append': 'https://{0}/service_node/{1}'.format(explorer(sn.testnet), sn['pubkey']) }
+        return { 'append': 'https://{0}/sn/{1}'.format(explorer(sn.testnet), sn['pubkey']) }
 
     def ready(self):
         return self.bot.user is not None

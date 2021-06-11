@@ -375,7 +375,7 @@ class TelegramContext(NetworkContext):
             self.context.user_data['sn_last_viewed'] = sn['pubkey']
             return InlineKeyboardMarkup([
                 [InlineKeyboardButton('Refresh', callback_data='refresh:last'),
-                 InlineKeyboardButton('View on '+expurl, url='https://{}/service_node/{}'.format(expurl, sn['pubkey']))],
+                 InlineKeyboardButton('View on '+expurl, url='https://{}/sn/{}'.format(expurl, sn['pubkey']))],
                 [InlineKeyboardButton('Start monitoring {}'.format(sn.alias()), callback_data='start:last')],
                 [InlineKeyboardButton('< Service nodes', callback_data='sns'), InlineKeyboardButton('<< Main menu', callback_data='main')]
                 ])
@@ -383,7 +383,7 @@ class TelegramContext(NetworkContext):
             snid = sn['id']
             return InlineKeyboardMarkup([
                 [InlineKeyboardButton('Refresh', callback_data='refresh:{}'.format(snid)),
-                 InlineKeyboardButton('View on '+expurl, url='https://{}/service_node/{}'.format(expurl, sn['pubkey']))],
+                 InlineKeyboardButton('View on '+expurl, url='https://{}/sn/{}'.format(expurl, sn['pubkey']))],
                 [InlineKeyboardButton('Stop monitoring', callback_data='stop:{}'.format(snid))],
                 [InlineKeyboardButton('Update alias', callback_data='alias:{}'.format(snid)),
                     InlineKeyboardButton('Remove alias', callback_data='del_alias:{}'.format(snid))]
@@ -780,7 +780,7 @@ class TelegramNetwork(Network):
         return {
                 'reply_markup': InlineKeyboardMarkup([[
                     InlineKeyboardButton('SN details', callback_data='sn:{}'.format(sn['id'])),
-                    InlineKeyboardButton(expurl, url='https://{}/service_node/{}'.format(expurl, sn['pubkey'])),
+                    InlineKeyboardButton(expurl, url='https://{}/sn/{}'.format(expurl, sn['pubkey'])),
                     InlineKeyboardButton('<< Main menu', callback_data='main')
                     ]])
                 }
