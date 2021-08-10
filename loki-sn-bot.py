@@ -239,14 +239,6 @@ def loki_updater():
                         sn.update(last_version=snver)
 
 
-                if (snver and snver in ([3,0,0], [3,0,1], [3,0,2], [3,0,3], [3,0,4], [3,0,5])):
-                    if not sn['notified_v305'] or sn['notified_v305'] + 24*60*60 <= now:
-                        if notify(sn,
-                                '🛑 *WARNING* Service node _{}_ is running a version before *v3.0.6*; a bug has been found (and fixed in *v3.0.6*) that can cause service '
-                                'node deregistration; upgrading to v3.0.6 (now available on github) as soon as possible is strongly recommended.'.format(name)):
-                            sn.update(notified_v305=now)
-
-
                 if sn['expires_soon']:
                     expires_at, expires_in = sn.expiry_block(), sn.expires_in()
                     if sn.infinite_stake() and expires_at is None:
