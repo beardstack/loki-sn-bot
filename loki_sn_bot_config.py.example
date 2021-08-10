@@ -3,8 +3,9 @@
 
 # auth token for the telegram bot; get this from @BotFather
 TELEGRAM_TOKEN = "FIXME"
-# If set, listen on this port on localhost, and tell discord to reach us here
-# Both must be set; otherwise polling will be used instead.
+# If set, listen on this port on localhost, and tell Telegram to push notifications to us here (i.e.
+# typically over https URL). Both must be set, otherwise polling will be used instead. Redirection
+# from the URL to the localhost port must be set up.
 TELEGRAM_WEBHOOK_PORT, TELEGRAM_WEBHOOK_URL = 22080, None
 
 # login token for the discord bot; see https://discordpy.readthedocs.io/en/rewrite/discord.html

@@ -104,7 +104,7 @@ def loki_updater():
 
         monitoring = {} # uid: set(pubkey, ...)
 
-        if not tg or not tg.ready() or not dc or not dc.ready:
+        if not tg or not tg.ready() or (config.DISCORD_TOKEN and (not dc or not dc.ready)):
             print("bots not ready yet!")
             continue
         try:
@@ -348,8 +348,9 @@ def stop_threads(signum, frame):
     tg.stop()
     print("Stopped Telegram")
 
-    print("Stopping Discord")
-    dc.stop()
+    if dc:
+        print("Stopping Discord")
+        dc.stop()
 
 def main():
     pgsql.connect()
@@ -360,10 +361,11 @@ def main():
 
     global tg, dc
     tg = TelegramNetwork()
-    dc = DiscordNetwork()
+    dc = DiscordNetwork() if config.DISCORD_TOKEN else None
 
     tg.start()
-    dc.start()
+    if dc:
+        dc.start()
 
     signal.signal(signal.SIGINT, stop_threads)
     signal.signal(signal.SIGTERM, stop_threads)
