@@ -339,6 +339,8 @@ class NetworkContext(metaclass=ABCMeta):
                         ' 👈 (you)' if any(x['address'].startswith(w) for w in my_wallets) else '')
                     for i, x in enumerate(sn.state('contributors')))
 
+            state_height = sn.state('state_height')
+            state_height_ago = ago((height - state_height) * AVERAGE_BLOCK_SECONDS)
             if sn.staked():
                 reg_height = sn.state('registration_height')
                 status = self.b('Active' if sn.active_on_network() else 'DECOMMISSIONED!')
@@ -347,11 +349,15 @@ class NetworkContext(metaclass=ABCMeta):
                 reply_text += 'Public IP: ' + self.b(sn.state('public_ip')) + '\n'
 
                 if sn.active_on_network() and sn.decomm_credit_blocks():
+                    reply_text += ('Active since: block '+self.b('{}')+' (approx. {})\n').format(
+                            state_height, state_height_ago)
                     reply_text += 'Earned uptime credit: ' + sn.format_decomm_credit()
                     if sn.decomm_credit_blocks() < 2*3600 / AVERAGE_BLOCK_SECONDS:
                         reply_text += ' (min. 2 hours required)'
                     reply_text += '\n'
                 elif sn.decommissioned():
+                    reply_text += ('Decommissioned since: block '+self.b('{}')+' (approx. {})\n').format(
+                            state_height, state_height_ago)
                     reply_text += 'Remaining decommssion time: ' + sn.format_decomm_credit() + '\n'
 
                 reply_text += ('Stake: '+self.b('{:.9f}')+'\nReg. height: '+self.b('{}')+' (approx. {})\n').format(
@@ -383,6 +389,8 @@ class NetworkContext(metaclass=ABCMeta):
                 reply_text += ('Stake: '+self.i('{:.9f}')+' ('+self.i('{:.1f}%')+' of required '+self.i('{:.9f}')+'; additional contribution required: {:.9f})\n').format(
                         contr/COIN, contr/req * 100, req/COIN, (req - contr)/COIN)
                 reply_text += stakes
+                reply_text += ('Last stake: block '+self.b('{}')+' (approx. {})\n').format(
+                            state_height, state_height_ago)
                 reply_text += 'Operator fee: '+self.b('{:.1f}%'.format(sn.operator_fee() * 100))+'\n'
                 reply_text += 'Registration expiry: ' + reg_expiry
 
