@@ -354,6 +354,8 @@ class ServiceNode:
             status_icon = '☣'
         elif proof_age >= PROOF_AGE_WARNING:
             status_icon = '⚠'
+        elif self.lokinet_unreachable() is not None or self.ss_unreachable() is not None:
+            status_icon = '⛔'
         elif ((lokisnbot.config.WARN_VERSION_LESS_THAN and self.version() < lokisnbot.config.WARN_VERSION_LESS_THAN)
                 or (lokisnbot.config.LATEST_VERSION and self.version() < lokisnbot.config.LATEST_VERSION)):
             status_icon = '🔼'
