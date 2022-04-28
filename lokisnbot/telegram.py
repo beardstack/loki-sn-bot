@@ -751,8 +751,8 @@ class TelegramNetwork(Network):
 
     def start(self):
         if lokisnbot.config.TELEGRAM_WEBHOOK_URL and lokisnbot.config.TELEGRAM_WEBHOOK_PORT:
-            self.updater.start_webhook(listen='127.0.0.1', url_path='/', port=lokisnbot.config.TELEGRAM_WEBHOOK_PORT)
-            self.updater.bot.set_webhook(url=lokisnbot.config.TELEGRAM_WEBHOOK_URL)
+            self.updater.start_webhook(listen='127.0.0.1', url_path='/', port=lokisnbot.config.TELEGRAM_WEBHOOK_PORT,
+                    webhook_url=lokisnbot.config.TELEGRAM_WEBHOOK_URL)
         else:
             self.updater.start_polling()
 
