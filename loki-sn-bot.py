@@ -180,6 +180,22 @@ def loki_updater():
                             sn.update(notified_age=None)
 
 
+                lokinet_unreachable = sn.lokinet_unreachable()
+                ss_unreachable = sn.ss_unreachable()
+                unreachable = lokinet_unreachable is not None or ss_unreachable is not None
+                if unreachable and sn['uid'] == 1:  # DEBUG
+                    if not sn['notified_unreachable'] or time.time() - sn['notified_unreachable'] > PROOF_AGE_REPEAT:
+                        lokinet_msg = ('\nLokinet has been unreachable for {}'.format(util.friendly_time(int(time.time()) - lokinet_unreachable))
+                                if lokinet_unreachable else '')
+                        ss_msg = ('\nStorage Server has been unreachable for {}'.format(util.friendly_time(int(time.time()) - ss_unreachable))
+                                if ss_unreachable else '')
+                        if notify(sn, prefix+f'⚠ *WARNING:* Service node _{name}_ is unreachable:{lokinet_msg}{ss_msg}'):
+                            sn.update(notified_unreachable=int(time.time()))
+                elif sn['notified_unreachable']:
+                    if notify(sn, prefix+'😌 Service node _{}_ Lokinet & Storage Server are now reachable'.format(name)):
+                        sn.update(notified_unreachable=None)
+
+
                 just_completed = False
                 if not sn['complete']:
                     if not sn['last_contributions'] or sn['last_contributions'] < sn.state('total_contributed'):

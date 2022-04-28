@@ -360,6 +360,24 @@ class NetworkContext(metaclass=ABCMeta):
                             state_height, state_height_ago)
                     reply_text += 'Remaining decommssion time: ' + sn.format_decomm_credit() + '\n'
 
+                def append_reachable(unreachable, which):
+                    nonlocal sn, reply_text
+                    reach_ago = sn.state(which + '_last_reachable')
+                    reach_ago = ago(int(time.time()) - reach_ago) if reach_ago else self.i('unknown')
+                    unreach_ago = sn.state(which + '_last_unreachable')
+                    unreach_ago = ago(int(time.time()) - unreach_ago) if unreach_ago else self.i('unknown')
+                    if unreachable is None:
+                        reply_text += f'Reachable (tested {reach_ago}; last failure {unreach_ago})'
+                    else:
+                        reply_text += f'⚠ {self.b("UNREACHABLE!")} (tested {unreach_ago}; last reachable {reach_ago})'
+
+                reply_text += 'Lokinet: '
+                append_reachable(sn.lokinet_unreachable(), 'lokinet')
+
+                reply_text += '\nStorage: '
+                append_reachable(sn.ss_unreachable(), 'storage_server')
+                reply_text += '\n'
+
                 reply_text += ('Stake: '+self.b('{:.9f}')+'\nReg. height: '+self.b('{}')+' (approx. {})\n').format(
                         total/COIN, reg_height, ago((height - reg_height) * AVERAGE_BLOCK_SECONDS))
 

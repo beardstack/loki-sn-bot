@@ -235,6 +235,23 @@ class ServiceNode:
                 )
 
 
+    def lokinet_unreachable(self):
+        """Returns None if lokinet is currently marked as reachable, the last reached timestamp if
+        unreachable (or 0 if never reachable)."""
+        if 'lokinet_reachable' not in self._state or self._state['lokinet_reachable']:
+            return None
+
+        return self._state['lokinet_first_unreachable']
+
+
+    def ss_unreachable(self):
+        """Same as above, but for storage server"""
+        if 'storage_server_reachable' not in self._state or self._state['storage_server_reachable']:
+            return None
+
+        return self._state['storage_server_first_unreachable']
+
+
     def decomm_credit_blocks(self):
         """Returns the number of blocks of decomm credit remaining (if decommissioned) or available for decomm (if active)."""
         blocks = None
