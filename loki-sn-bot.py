@@ -184,7 +184,7 @@ def loki_updater():
                 ss_unreachable = sn.ss_unreachable()
                 unreachable = lokinet_unreachable is not None or ss_unreachable is not None
                 if unreachable:
-                    if not sn['notified_unreachable'] or time.time() - sn['notified_unreachable'] > PROOF_AGE_REPEAT:
+                    if not sn['notified_unreachable'] or time.time() - sn['notified_unreachable'] > UNREACHABLE_REPEAT:
                         lokinet_msg = ('\n⛔ Lokinet has been unreachable for {}'.format(util.friendly_time(int(time.time()) - lokinet_unreachable))
                                 if lokinet_unreachable else '')
                         ss_msg = ('\n⛔ Storage Server has been unreachable for {}'.format(util.friendly_time(int(time.time()) - ss_unreachable))
